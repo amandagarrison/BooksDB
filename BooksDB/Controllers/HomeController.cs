@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,6 +21,27 @@ namespace BooksDB.Controllers
 
         public IActionResult Index()
         {
+           using( var conn = new SqlConnection("Server=.;Database=Books;Trusted_Connection=True;"))
+            {
+                conn.Open();
+
+                var cmd = new SalCommand();
+                cmd.Connection = conn;
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.CommandText = "Select * FROM Books";
+
+                var reader = cmd.ExecuteReader();
+
+                while(reader.Read())
+                {
+                    var title = reader["Title"].ToString();
+                    var id = Convert.ToInt32(reader["BookId"]);
+                    var wat = 7;
+                }
+
+            }
+          
+
             return View();
         }
 
